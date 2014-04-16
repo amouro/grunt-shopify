@@ -314,10 +314,9 @@ module.exports = function(grunt) {
      * @param {string} filepath
      * @param {Function} done
      */
-    shopify.download = function(filepath, done) {
+    shopify.download = function(key, done) {
         var api = shopify._getApi(),
-            themeId = shopify._getThemeId(),
-            key = shopify._makeAssetKey(filepath);
+            themeId = shopify._getThemeId();
 
         function onRetrieve(err, obj) {
             if (err) {
