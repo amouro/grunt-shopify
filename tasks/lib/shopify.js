@@ -412,6 +412,44 @@ module.exports = function(grunt) {
         });
     };
 
+    /*
+     * Create a new theme.
+     *
+     * @param {Function} done
+     */
+    shopify.create = function(properties, done) {
+        var api = shopify._getApi();
+
+        if (!properties || !properties.name || !properties.role){
+            return done(new Error('Failed to create a new theme without specified name and role.'));
+        }
+
+        properties.name = properties.name + ' - ' + (new Date()).toLocaleString();
+
+        properties = {
+            theme: properties
+        };
+
+        api.theme.create(properties, function(err, obj) {
+            if (err) {
+                return done(err);
+            }
+
+            if (!obj.theme) {
+                return done(new Error('Failed to create a new theme.'));
+            }
+
+            var str = obj.theme.id + ' - ' + obj.theme.name;
+            if (obj.theme.role.length > 0) {
+                str += ' (' + obj.theme.role + ')';
+            }
+            grunt.log.writeln(str);
+
+            done(obj.theme);
+        });
+    };
+
+    
     shopify.watchHandler = function(action, filepath) {
         function errorHandler(err) {
             if (err) {

@@ -49,6 +49,15 @@ module.exports = function(grunt) {
         shopify.remove(p, done);
     });
 
+    grunt.registerTask('shopify:create', 'Created a new theme at Shopify', function(name, role, src) {
+        var done = this.async();
+        shopify.create({
+            name: name,
+            role: role,
+            src: src
+        }, done);
+    });
+
     /**
      * Grunt watch event
      */
